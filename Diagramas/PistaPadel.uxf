@@ -1,0 +1,60 @@
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>340</x><y>10</y><w>210</w><h>150</h></coordinates><panel_attributes>&lt;&lt;Contract&gt;&gt;
+PistasDePadelRolAdmin
+--
+Variables globales
++GESTOR_PISTAS_ROLE: Bytes32
+--
+Funciones
+# constructor()
+--
+Modifiers
++ onlyGestor</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>300</x><y>240</y><w>280</w><h>200</h></coordinates><panel_attributes>&lt;&lt;Contract&gt;&gt;
+PistasDePadelGestion
+--
+Funciones
+# constructor()
+--
+Funciones de gestor
++ crearPista(nombre: String): uint
++ setPistaApagado(idPista: uint)
++ setPistaFuncionamiento(idPista: uint)
++ setPistaEncendido(idPista: uint)
+--
+Modifiers
++ estadoDePistaFuncionamiento(idPista: uint)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>80</x><y>460</y><w>100</w><h>100</h></coordinates><panel_attributes>&lt;&lt;Enum&gt;&gt;
+Estado
+--
+Apagado
+Funcionando
+Encendido</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>70</x><y>260</y><w>120</w><h>110</h></coordinates><panel_attributes>&lt;&lt;Struct&gt;&gt;
+Pista
+--
+-nombre: String
+-plazo: Timestamp
+-estado: Estado</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>110</x><y>360</y><w>30</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;100;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>180</x><y>310</y><w>140</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
+m1=0..n</panel_attributes><additional_attributes>10;10;120;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>640</x><y>50</y><w>260</w><h>50</h></coordinates><panel_attributes>&lt;&lt;Contract&gt;&gt;
+OpenZeppelinContracts::AccessControl
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>900</x><y>140</y><w>240</w><h>140</h></coordinates><panel_attributes>Un smart contract que implementa 
+funciones para asignar y controlar roles 
+en un sistema. Más información en la 
+documentación de los contratos de 
+OpenZeppelin.
+bg=black</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>540</x><y>70</y><w>120</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>100;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>430</x><y>150</y><w>30</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;90</additional_attributes></element><element><id>Relation</id><coordinates><x>890</x><y>70</y><w>150</w><h>90</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;10;130;10;130;70</additional_attributes></element><element><id>UMLClass</id><coordinates><x>300</x><y>520</y><w>540</w><h>240</h></coordinates><panel_attributes>&lt;&lt;Contract&gt;&gt;
+PistasDePadelGestion
+--
+Variables
++ PrecioXMinuto: uint
++ TiempoExtra: uint
+- ganancias: uint
+--
+Funciones
++ reservar(idPista: uint, minutos: uint, msg.value: uint)
+- precondicionesReserva(idPista: uint, pago: uint,  minutos: uint, nuevoPlazo: uint)
+--
+Funciones de gestor
++ getGanancias(): uint
++ retirarGanancias(): bool
++ setPrecioXMinuto(precio: uint)
++ setTiempoExtra(segundos: uint)
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>450</x><y>430</y><w>30</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;90</additional_attributes></element></diagram>
