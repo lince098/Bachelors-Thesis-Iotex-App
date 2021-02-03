@@ -1,9 +1,6 @@
-import Antenna from "iotex-antenna";
-require("dotenv").config();
+import { publicConfig } from "../configs/public";
+import { AntennaUtils } from "./antanna";
 const BN = require("bn.js");
-
-const antenna = new Antenna("http://api.testnet.iotex.one:80");
-const wallet = antenna.iotx.accounts.privateKeyToAccount(process.env.PRIV_KEY);
 
 const Estados = {
   Apagado: 0,
@@ -11,12 +8,25 @@ const Estados = {
   Encendido: 2,
 };
 
+export async function getAll() {
+  const antenna = AntennaUtils.getAntenna();
+  console.log(publicConfig);
+  const pistas = await antenna.iotx.readContractByMethod({
+    from: await AntennaUtils.getIoPayAddress(),
+    contractAddress: publicConfig.CONTRATO_DIRECCION,
+    abi: publicConfig.CONTRATO_ABI,
+    method: "getAllPistas",
+  });
+  return pistas;
+}
+
 export const getPista = async (idPista) => {
+  const antenna = AntennaUtils.getAntenna();
   const pista = await antenna.iotx.readContractByMethod(
     {
-      from: wallet.address,
-      contractAddress: process.env.CONTRATO_DIRECCION,
-      abi: process.env.CONTRATO_ABI,
+      from: await AntennaUtils.getIoPayAddress(),
+      contractAddress: publicConfig.CONTRATO_DIRECCION,
+      abi: publicConfig.CONTRATO_ABI,
       method: "pistas",
     },
     idPista
