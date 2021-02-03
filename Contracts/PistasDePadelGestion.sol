@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.6.0 <0.7.0;
 import "./PistasDePadelRolAdmin.sol";
-pragma experimental ABIEncoderV2;
 
 contract PistasDePadelGestion is PistasDePadelRolAdmin {
     enum Estado {Apagado, Funcionamiento, Encendido}
@@ -31,8 +30,8 @@ contract PistasDePadelGestion is PistasDePadelRolAdmin {
         return n;
     }
 
-    function getAllPistas() public view returns (Pista[] memory) {
-        return pistas;
+    function numeroPistas() public view returns (uint256) {
+        return pistas.length;
     }
 
     function resetearPlazos(uint256[] calldata _idReset) public onlyGestor {
