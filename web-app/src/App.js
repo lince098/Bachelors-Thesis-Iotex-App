@@ -1,31 +1,44 @@
 import { useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useStore } from "./store/store";
 import MyNavbar from "./components/Navbar";
 import VistaPistas from "./components/VistaPistas";
-import { AntennaUtils } from "./utils/antanna";
-import { getAll,getPista,logPista } from "./utils/PistaUtils";
-
-function effect() {
-  const antenna = AntennaUtils.getAntenna();
-  console.log(antenna);
-  AntennaUtils.getIoPayAddress().then((response) => {
-    console.log(response);
-  });
-  getAll().then((response) => {
-    console.log("Log de getAll ",response);
-  });
-  getPista(1)
-}
+import { observer } from "mobx-react";
+import { hooks } from "./utils/hooks";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
-  useEffect(effect, []);
+  const { wallet } = useStore();
+
+  useEffect(() => {
+    wallet.init();
+    hooks.waitAccount().then(() => {
+      console.log("load account success", wallet.account.address);
+    });
+    hooks.waitIotxBalance().then(() => {
+      console.log("load iotx balance success", wallet.account.balance);
+    });
+  }, []);
 
   return (
-    <div className="App">
-      <MyNavbar />
-      <VistaPistas></VistaPistas>
-    </div>
+    <Router>
+      <div className="App">
+        <MyNavbar />
+        <p>
+          Parrafo para ver el estado de la cartera:
+          {wallet.account.address} , {wallet.account.balance}
+        </p>
+        <Switch>
+          <Route exact path="/"></Route>
+          <Route path="/tutorial">Nueva ruta</Route>
+          <Route path="/pistas">
+            <VistaPistas />
+          </Route>
+          <Route path="/pista/:id"></Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
-export default App;
+export default observer(App);

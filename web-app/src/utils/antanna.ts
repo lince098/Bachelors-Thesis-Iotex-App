@@ -35,6 +35,7 @@ export class AntennaUtils {
           extractRequestId: (data) => data && data.reqId,
         },
       });
+
       const antenna = new Antenna(publicConfig.IOTEX_CORE_ENDPOPINT, {
         signer: this.wsSigner.start(),
       });
@@ -60,7 +61,7 @@ export class AntennaUtils {
     }
   }
 
-  static async getIoPayAddress(): Promise<string>{
+  static async getIoPayAddress(): Promise<string> {
     if (!AntennaUtils.antenna) {
       AntennaUtils.antenna = AntennaUtils.getAntenna();
     }
@@ -84,7 +85,7 @@ export class AntennaUtils {
       }
       return (accounts && accounts[0] && accounts[0].address) || "";
     }
-    return ""
+    return "";
   }
 
   static async getIotxBalance(address: string): Promise<number> {

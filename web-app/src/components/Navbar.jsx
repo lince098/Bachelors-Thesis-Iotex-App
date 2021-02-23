@@ -1,6 +1,6 @@
-import react from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import IconoPadel from "../assets/IconoPadel.png";
+import { NavLink } from "react-router-dom";
 export default function MyNavbar() {
   return (
     <Navbar bg="success" variant="dark" expand="lg">
@@ -17,11 +17,34 @@ export default function MyNavbar() {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          <Nav.Link href="#home">Home</Nav.Link>
-          <Nav.Link href="#features">Tutorial</Nav.Link>
-          <Nav.Link href="#pricing">Pistas</Nav.Link>
+          <Nav.Link as={NavLink} exact to="/">
+            Home
+          </Nav.Link>
+          <Nav.Link as={NavLink} exact to="/tutorial">
+            Tutorial
+          </Nav.Link>
+          <Nav.Link as={NavLink} exact to="/pistas">
+            Pistas
+          </Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
   );
 }
+
+/*
+<LinkContainer to="/">
+            <Nav.Link>Home</Nav.Link>
+          </LinkContainer>
+          <LinkContainer to="/tutorial">
+            <Nav.Link>Tutorial</Nav.Link>
+          </LinkContainer>
+          <LinkContainer to="/pistas">
+            <Nav.Link>Pistas</Nav.Link>
+          </LinkContainer>
+
+
+          <Nav.Link href="/">Home</Nav.Link>
+          <Nav.Link href="/tutorial">Tutorial</Nav.Link>
+          <Nav.Link href="/pistas">Pistas</Nav.Link>
+*/
