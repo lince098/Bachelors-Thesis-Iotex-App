@@ -1,14 +1,15 @@
 import { Table, Button, Form } from "react-bootstrap";
 import { getAll, Estados, isReservable } from "../utils/PistaUtils";
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const alignRightStyle = {
   justifyContent: "center",
 };
 
 function PistaFila({ pista }) {
+  const history = useHistory();
   let estado = "";
-  const disableButton = true;
   switch (parseInt(pista.estado, "10")) {
     case Estados.Apagado:
       estado = "Apagado";
@@ -23,11 +24,19 @@ function PistaFila({ pista }) {
       break;
   }
 
-  const buttonOnClick = (event) => {};
+  const buttonOnClick = (event) => {
+    event.preventDefault();
+    const next = "/pista/" + pista.id;
+    history.push(next);
+  };
 
   let button = "";
   if (isReservable(pista)) {
-    button = <Button variant="success">Reserve ahora </Button>;
+    button = (
+      <Button variant="success" onClick={buttonOnClick}>
+        Reserve ahora{" "}
+      </Button>
+    );
   } else {
     button = (
       <Button variant="danger" disabled>

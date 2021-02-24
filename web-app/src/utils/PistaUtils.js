@@ -1,6 +1,9 @@
 import { publicConfig } from "../configs/public";
 import { AntennaUtils } from "./antanna";
-const BN = require("bn.js");
+import { Contract } from "iotex-antenna/lib/contract/contract";
+import { fromRau, toRau } from "iotex-antenna/lib/account/utils";
+import { wait } from "@testing-library/react";
+import sleep from "sleep-promise";
 
 export const Estados = {
   Apagado: 0,
@@ -8,20 +11,66 @@ export const Estados = {
   Encendido: 2,
 };
 
+function getContrato() {
+  const antenna = AntennaUtils.getAntenna();
+  return new Contract(
+    publicConfig.CONTRATO_ABI_NO_STRING,
+    publicConfig.CONTRATO_DIRECCION,
+    { provider: antenna.iotx, signer: antenna.iotx.signer }
+  );
+}
+
+export async function reservar(pistaObj, minutos) {
+  const antenna = AntennaUtils.getAntenna();
+  const contrato = getContrato();
+  const cuenta = await AntennaUtils.getIoPayAddress();
+  const precio = Number(await getPrecio());
+
+  console.log("minutos: ", typeof minutos, minutos);
+  console.log("precio: ", typeof precio, precio);
+
+  const ammount = String(minutos * precio);
+
+  console.log("Amount contract: ", ammount, typeof ammount);
+
+  const hash = await contrato.methods.reservar(pistaObj.id, minutos, {
+    account: cuenta,
+    amount: ammount,
+    ...AntennaUtils.defaultContractOptions,
+  });
+
+  console.log("Funcion reserva response hash: ", hash);
+
+  /*
+  await sleep(15000)
+  const transaction = await antenna.iotx.getActions({
+    byHash: { actionHash: hash, checkingPending: true },
+  });
+  console.log("Transaction: ", transaction);
+  return transaction;
+  */
+  return hash;
+}
+
 export async function getAll() {
   const numPist = await numeroPistas();
   let array = [];
   for (let index = 0; index < numPist; index++) {
-    let response = await getPista(index);
-    let pista = {
-      id: index,
-      nombre: response[0],
-      plazoEncendido: response[1],
-      estado: response[2],
-    };
+    let pista = await getPistaObject(index);
     array.push(pista);
   }
   return array;
+}
+
+export async function getPrecio() {
+  const antenna = AntennaUtils.getAntenna();
+  const precio = await antenna.iotx.readContractByMethod({
+    from: await AntennaUtils.getIoPayAddress(),
+    contractAddress: publicConfig.CONTRATO_DIRECCION,
+    abi: publicConfig.CONTRATO_ABI,
+    method: "PrecioXMinuto",
+  });
+  return precio;
 }
 
 export async function numeroPistas() {

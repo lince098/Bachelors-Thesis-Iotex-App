@@ -61,16 +61,16 @@ contract PistasDePadelCliente is PistasDePadelGestion {
         return true;
     }
 
-    function getGanancias() public view     onlyGestor returns(uint) {
+    function getGanancias() public view onlyGestor returns (uint256) {
         return ganancias;
     }
 
-    function setPrecioXMinuto(uint _precio) public onlyGestor {
-        require(_precio>0, "El precio es menor o igual a 0");
+    function setPrecioXMinuto(uint256 _precio) public onlyGestor {
+        require(_precio > 0, "El precio es menor o igual a 0");
         PrecioXMinuto = _precio;
     }
 
-    function setTiempoExtra(uint segundos) public onlyGestor {
+    function setTiempoExtra(uint256 segundos) public onlyGestor {
         TiempoExtra = segundos;
     }
 }

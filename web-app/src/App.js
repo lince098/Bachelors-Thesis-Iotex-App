@@ -6,6 +6,7 @@ import VistaPistas from "./components/VistaPistas";
 import { observer } from "mobx-react";
 import { hooks } from "./utils/hooks";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import  Reserva from "./components/Reserva";
 
 function App() {
   const { wallet } = useStore();
@@ -34,7 +35,9 @@ function App() {
           <Route path="/pistas">
             <VistaPistas />
           </Route>
-          <Route path="/pista/:id"></Route>
+          <Route path="/pista/:id">
+            <Reserva />
+          </Route>
         </Switch>
       </div>
     </Router>
