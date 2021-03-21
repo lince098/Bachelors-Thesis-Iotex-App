@@ -2,8 +2,18 @@ import { publicConfig } from "../configs/public";
 import { AntennaUtils } from "./antanna";
 import { Contract } from "iotex-antenna/lib/contract/contract";
 import { fromRau, toRau } from "iotex-antenna/lib/account/utils";
-import { wait } from "@testing-library/react";
-import sleep from "sleep-promise";
+
+/*
+interface PistaObjeto{
+  
+}
+*/
+
+export const Roles = {
+  ADMIN_ROLE: "0x0",
+  GESTOR_ROLE:
+    "0x687797022fb88d524c9d386b0ec1c01a0799fff1f1f8403113dffa17f4bf6ab2",
+};
 
 export const Estados = {
   Apagado: 0,
@@ -13,11 +23,14 @@ export const Estados = {
 
 function getContrato() {
   const antenna = AntennaUtils.getAntenna();
+  
   return new Contract(
     publicConfig.CONTRATO_ABI_NO_STRING,
     publicConfig.CONTRATO_DIRECCION,
+    // @ts-ignore
     { provider: antenna.iotx, signer: antenna.iotx.signer }
   );
+   
 }
 
 export async function reservar(pistaObj, minutos) {
@@ -26,30 +39,150 @@ export async function reservar(pistaObj, minutos) {
   const cuenta = await AntennaUtils.getIoPayAddress();
   const precio = Number(await getPrecio());
 
-  console.log("minutos: ", typeof minutos, minutos);
-  console.log("precio: ", typeof precio, precio);
-
   const ammount = String(minutos * precio);
-
-  console.log("Amount contract: ", ammount, typeof ammount);
-
+  
   const hash = await contrato.methods.reservar(pistaObj.id, minutos, {
     account: cuenta,
     amount: ammount,
     ...AntennaUtils.defaultContractOptions,
   });
 
-  console.log("Funcion reserva response hash: ", hash);
+  return hash;
+}
 
-  /*
-  await sleep(15000)
+export async function setTiempoExtra(segundos) {
+  const antenna = AntennaUtils.getAntenna();
+  const contrato = getContrato();
+  const cuenta = await AntennaUtils.getIoPayAddress();
+
+  const hash = await contrato.methods.setTiempoExtra(segundos, {
+    account: cuenta,
+    amount: 0,
+    ...AntennaUtils.defaultContractOptions,
+  });
+
+  return hash;
+}
+//TODO
+export async function crearPista(segundos) {
+  const antenna = AntennaUtils.getAntenna();
+  const contrato = getContrato();
+  const cuenta = await AntennaUtils.getIoPayAddress();
+  const hash = await contrato.methods.setTiempoExtra(segundos, {
+    account: cuenta,
+    amount: 0,
+    ...AntennaUtils.defaultContractOptions,
+  });
+
+  return hash;
+}
+
+export async function darRolGestor(cuentaNueva) {
+  const antenna = AntennaUtils.getAntenna();
+  const contrato = getContrato();
+  const cuenta = await AntennaUtils.getIoPayAddress();
+
+  const hash = await contrato.methods.grantRole(
+    Roles.GESTOR_ROLE,
+    cuentaNueva,
+    {
+      account: cuenta,
+      amount: 0,
+      ...AntennaUtils.defaultContractOptions,
+    }
+  );
+  return hash;
+}
+
+export async function setPrecioXMinutos(cantidad, unidad) {
+  const antenna = AntennaUtils.getAntenna();
+  const contrato = getContrato();
+  const cuenta = await AntennaUtils.getIoPayAddress();
+
+  const precioFinal = toRau(cantidad, unidad);
+
+  const hash = await contrato.methods.setPrecioXMinuto(precioFinal, {
+    account: cuenta,
+    amount: 0,
+    ...AntennaUtils.defaultContractOptions,
+  });
+
+  return hash;
+}
+
+export async function setPistaEstado(pistaid, estado) {
+  const antenna = AntennaUtils.getAntenna();
+  const contrato = getContrato();
+  const cuenta = await AntennaUtils.getIoPayAddress();
+  const pista = await getPistaObject(pistaid);
+  let hash;
+  console.log(console.log(pista));
+  console.log(estado);
+
+  switch (estado) {
+    case Estados.Apagado:
+      hash = await contrato.methods.setPistaApagado(pista.id, {
+        account: cuenta,
+        amount: 0,
+        ...AntennaUtils.defaultContractOptions,
+      });
+      break;
+    case Estados.Encendido:
+      hash = await contrato.methods.setPistaEncendido(pista.id, {
+        account: cuenta,
+        amount: 0,
+        ...AntennaUtils.defaultContractOptions,
+      });
+      break;
+    case Estados.Funcionando:
+      hash = await contrato.methods.setPistaFuncionamiento(pista.id, {
+        account: cuenta,
+        amount: 0,
+        ...AntennaUtils.defaultContractOptions,
+      });
+      break;
+    default:
+      console.log("Caso default ha habido un error con los estados.");
+      break;
+  }
+
+  return hash;
+}
+
+export async function logTransaction(hash) {
+  const antenna = AntennaUtils.getAntenna();
   const transaction = await antenna.iotx.getActions({
     byHash: { actionHash: hash, checkingPending: true },
   });
   console.log("Transaction: ", transaction);
-  return transaction;
-  */
-  return hash;
+}
+
+export async function hasRol(rol, cuenta) {
+  const contrato = getContrato();
+
+  const response = await contrato.methods.hasRole(rol, cuenta, {
+    account: cuenta,
+  });
+
+  return response;
+}
+
+export async function getRoleGestor() {
+  const contrato = getContrato();
+
+  const cuenta = await AntennaUtils.getIoPayAddress();
+  const response = await contrato.methods.GESTOR_PISTAS_ROLE({
+    account: cuenta,
+  });
+
+  console.log(response, typeof response);
+}
+
+export async function isLoggedAccountGestor() {
+  const cuenta = await AntennaUtils.getIoPayAddress();
+  const response = await hasRol(Roles.GESTOR_ROLE, cuenta);
+
+  return response;
 }
 
 export async function getAll() {
@@ -57,6 +190,10 @@ export async function getAll() {
   let array = [];
   for (let index = 0; index < numPist; index++) {
     let pista = await getPistaObject(index);
+    console.log(typeof pista.id, pista.id);
+    console.log(typeof pista.estado, pista.estado);
+    console.log(typeof pista.plazoEncendido, pista.plazoEncendido);
+    console.log(typeof pista.nombre, pista.nombre);
     array.push(pista);
   }
   return array;
@@ -136,9 +273,6 @@ export const isEncendida = (pistaArray) => {
     case Estados.Funcionando:
       const now = new Date();
       const timestamp = Math.trunc(now.getTime() / 1000);
-      console.log("Momento plazo:" + pistaArray[1]);
-      console.log("Momento Actual Truncado:\n" + timestamp);
-      console.log("Momento Actual :\n" + now.getTime());
 
       return timestamp >= pistaArray[1];
   }

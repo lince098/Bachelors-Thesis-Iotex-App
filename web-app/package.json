@@ -17,6 +17,7 @@
     "mobx-remotedev": "^0.3.6",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.3",
+    "react-bootstrap-icons": "^1.4.0",
     "react-device-detect": "^1.15.0",
     "react-dom": "^17.0.1",
     "react-router": "^5.2.0",
@@ -52,6 +53,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {}
+  }
 }

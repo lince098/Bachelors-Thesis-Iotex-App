@@ -1,14 +1,17 @@
-import { makeObservable, observable, computed, action } from "mobx";
+import { makeObservable, observable, runInAction, action } from "mobx";
 import remotedev from "mobx-remotedev";
 import { utils } from "../utils/index";
 import { AntennaUtils } from "../utils/antanna";
 import { fromRau, toRau } from "iotex-antenna/lib/account/utils";
+import { hasRol, Roles } from "../utils/PistaUtils";
 
 @remotedev({ name: "wallet" })
 export class WalletStore {
   account = {
     address: "",
     balance: "",
+    gestor: false,
+    admin: false,
   };
 
   isConnectWsError = false;
@@ -18,17 +21,12 @@ export class WalletStore {
       isConnectWsError: observable,
       initWS: action,
       init: action,
-      loadAccount: action,
     });
   }
 
   async init() {
-    try {
-      this.initEvent();
-      await this.initWS().catch((err) => console.log(err));
-    } catch (err) {
-      console.log(err);
-    }
+    this.initEvent();
+    await this.initWS();
   }
 
   initEvent() {
@@ -38,10 +36,20 @@ export class WalletStore {
         this.isConnectWsError = false;
       })
       .on("client.iopay.close", () => {
-        this.account = { address: "", balance: "" };
+        this.account = {
+          address: "",
+          balance: "",
+          gestor: false,
+          admin: false,
+        };
       })
       .on("client.iopay.connectError", () => {
-        this.account = { address: "", balance: "" };
+        this.account = {
+          address: "",
+          balance: "",
+          gestor: false,
+          admin: false,
+        };
         this.isConnectWsError = true;
       });
   }
@@ -60,18 +68,20 @@ export class WalletStore {
     );
 
     if (err || !address || address === "") {
+      console.log("Settimeout");
+
       return setTimeout(() => {
         this.initWS();
       }, 2000);
       // @ts-ignore
     }
-
-    this.account.address = address;
+    runInAction(() => {
+      this.account.address = address;
+    });
     this.loadAccount();
   }
 
   async loadAccount() {
-    if (!this.account.address) return;
     // @ts-ignore
     const [err, data] = await utils.helper.promise.runAsync(
       // @ts-ignore
@@ -93,13 +103,40 @@ export class WalletStore {
       }, 2000);
     }
 
-    if (!err && data)
+    if (!err && data) {
       if (data?.accountMeta) {
         const { balance } = data?.accountMeta;
-        console.log(balance);
-
-        this.account.balance = fromRau(balance, "iotx");
-        console.log(this.account.balance);
+        runInAction(() => {
+          this.account.balance = fromRau(balance, "iotx");
+        });
       }
+    }
+    const [err1, data1] = await utils.helper.promise.runAsync(
+      hasRol(Roles.ADMIN_ROLE, this.account.address)
+    );
+
+    if (err1 || !data1) {
+      return setTimeout(() => {
+        this.loadAccount();
+      }, 2000);
+    }
+
+    runInAction(() => {
+      this.account.admin = data1;
+    });
+
+    const [err2, data2] = await utils.helper.promise.runAsync(
+      hasRol(Roles.GESTOR_ROLE, this.account.address)
+    );
+
+    if (err2 || !data2) {
+      return setTimeout(() => {
+        this.loadAccount();
+      }, 2000);
+    }
+    
+    runInAction(() => {
+      this.account.gestor = data2;
+    });
   }
 }
