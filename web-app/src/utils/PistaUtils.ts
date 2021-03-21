@@ -3,11 +3,12 @@ import { AntennaUtils } from "./antanna";
 import { Contract } from "iotex-antenna/lib/contract/contract";
 import { fromRau, toRau } from "iotex-antenna/lib/account/utils";
 
-/*
-interface PistaObjeto{
-  
+interface PistaObjeto {
+  id: number;
+  estado: string;
+  plazoEncendido: string;
+  nombre: string;
 }
-*/
 
 export const Roles = {
   ADMIN_ROLE: "0x0",
@@ -23,24 +24,23 @@ export const Estados = {
 
 function getContrato() {
   const antenna = AntennaUtils.getAntenna();
-  
+
   return new Contract(
     publicConfig.CONTRATO_ABI_NO_STRING,
     publicConfig.CONTRATO_DIRECCION,
     // @ts-ignore
     { provider: antenna.iotx, signer: antenna.iotx.signer }
   );
-   
 }
 
-export async function reservar(pistaObj, minutos) {
+export async function reservar(pistaObj: PistaObjeto, minutos: number) {
   const antenna = AntennaUtils.getAntenna();
   const contrato = getContrato();
   const cuenta = await AntennaUtils.getIoPayAddress();
   const precio = Number(await getPrecio());
 
   const ammount = String(minutos * precio);
-  
+
   const hash = await contrato.methods.reservar(pistaObj.id, minutos, {
     account: cuenta,
     amount: ammount,
@@ -50,7 +50,7 @@ export async function reservar(pistaObj, minutos) {
   return hash;
 }
 
-export async function setTiempoExtra(segundos) {
+export async function setTiempoExtra(segundos: number) {
   const antenna = AntennaUtils.getAntenna();
   const contrato = getContrato();
   const cuenta = await AntennaUtils.getIoPayAddress();
@@ -64,7 +64,7 @@ export async function setTiempoExtra(segundos) {
   return hash;
 }
 //TODO
-export async function crearPista(segundos) {
+export async function crearPista(segundos: number) {
   const antenna = AntennaUtils.getAntenna();
   const contrato = getContrato();
   const cuenta = await AntennaUtils.getIoPayAddress();
@@ -77,7 +77,7 @@ export async function crearPista(segundos) {
   return hash;
 }
 
-export async function darRolGestor(cuentaNueva) {
+export async function darRolGestor(cuentaNueva: string) {
   const antenna = AntennaUtils.getAntenna();
   const contrato = getContrato();
   const cuenta = await AntennaUtils.getIoPayAddress();
@@ -94,7 +94,7 @@ export async function darRolGestor(cuentaNueva) {
   return hash;
 }
 
-export async function setPrecioXMinutos(cantidad, unidad) {
+export async function setPrecioXMinutos(cantidad: string, unidad: string) {
   const antenna = AntennaUtils.getAntenna();
   const contrato = getContrato();
   const cuenta = await AntennaUtils.getIoPayAddress();
@@ -110,7 +110,7 @@ export async function setPrecioXMinutos(cantidad, unidad) {
   return hash;
 }
 
-export async function setPistaEstado(pistaid, estado) {
+export async function setPistaEstado(pistaid: number, estado: number) {
   const antenna = AntennaUtils.getAntenna();
   const contrato = getContrato();
   const cuenta = await AntennaUtils.getIoPayAddress();
@@ -149,15 +149,16 @@ export async function setPistaEstado(pistaid, estado) {
   return hash;
 }
 
-export async function logTransaction(hash) {
+export async function logTransaction(hash: string) {
   const antenna = AntennaUtils.getAntenna();
+  // @ts-ignore
   const transaction = await antenna.iotx.getActions({
     byHash: { actionHash: hash, checkingPending: true },
   });
   console.log("Transaction: ", transaction);
 }
 
-export async function hasRol(rol, cuenta) {
+export async function hasRol(rol: string, cuenta: string) {
   const contrato = getContrato();
 
   const response = await contrato.methods.hasRole(rol, cuenta, {
@@ -190,10 +191,6 @@ export async function getAll() {
   let array = [];
   for (let index = 0; index < numPist; index++) {
     let pista = await getPistaObject(index);
-    console.log(typeof pista.id, pista.id);
-    console.log(typeof pista.estado, pista.estado);
-    console.log(typeof pista.plazoEncendido, pista.plazoEncendido);
-    console.log(typeof pista.nombre, pista.nombre);
     array.push(pista);
   }
   return array;
@@ -201,6 +198,7 @@ export async function getAll() {
 
 export async function getPrecio() {
   const antenna = AntennaUtils.getAntenna();
+  // @ts-ignore
   const precio = await antenna.iotx.readContractByMethod({
     from: await AntennaUtils.getIoPayAddress(),
     contractAddress: publicConfig.CONTRATO_DIRECCION,
@@ -212,6 +210,7 @@ export async function getPrecio() {
 
 export async function numeroPistas() {
   const antenna = AntennaUtils.getAntenna();
+  // @ts-ignore
   const numPist = await antenna.iotx.readContractByMethod({
     from: await AntennaUtils.getIoPayAddress(),
     contractAddress: publicConfig.CONTRATO_DIRECCION,
@@ -221,19 +220,19 @@ export async function numeroPistas() {
   return numPist;
 }
 
-export const getPistaObject = async (idPista) => {
+export async function getPistaObject(idPista: number): Promise<PistaObjeto> {
   const pista = await getPista(idPista);
-
   return {
     id: idPista,
     nombre: pista[0],
     plazoEncendido: pista[1],
     estado: pista[2],
   };
-};
+}
 
-export const getPista = async (idPista) => {
+export const getPista = async (idPista: number) => {
   const antenna = AntennaUtils.getAntenna();
+  // @ts-ignore
   const pista = await antenna.iotx.readContractByMethod(
     {
       from: await AntennaUtils.getIoPayAddress(),
@@ -246,23 +245,23 @@ export const getPista = async (idPista) => {
   return pista;
 };
 
-export const logPista = (pistaArray) => {
+export const logPista = (pistaArray: Array<any>) => {
   console.log("Nombre: " + pistaArray[0]);
   console.log("\tPlazo:" + pistaArray[1]);
   console.log("\tEstado:" + pistaArray[2]);
 };
 
-export const isReservable = (pista) => {
+export const isReservable = (pista: PistaObjeto) => {
   let reservable = false;
   const now = new Date();
-  if (parseInt(pista.estado, "10") === Estados.Funcionando) {
+  if (parseInt(pista.estado, 10) === Estados.Funcionando) {
     const timestamp = Math.trunc(now.getTime() / 1000);
-    reservable = timestamp > parseInt(pista.plazoEncendido, "10");
+    reservable = timestamp > parseInt(pista.plazoEncendido, 10);
   }
   return reservable;
 };
 
-export const isEncendida = (pistaArray) => {
+export const isEncendida = (pistaArray: Array<any>) => {
   switch (pistaArray[2].toNumber()) {
     case Estados.Apagado:
       return false;

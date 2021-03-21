@@ -5,7 +5,7 @@ import { set } from "mobx";
 
 const FormEstadoPista = () => {
   const [mensaje, setMensaje] = useState("");
-  const [id, setId] = useState(null);
+  const [id, setId] = useState(0);
   const [estado, setEstado] = useState(1);
 
   function idOnChange(event) {
