@@ -1,5 +1,4 @@
-import { observer } from "mobx-react";
-import { Accordion, Card, Button, Form, Row, Col } from "react-bootstrap";
+import { Accordion, Card, Button } from "react-bootstrap";
 import FormPrecio from "./FormsVistaAdmin/FormPrecio";
 import FormTiempoExtra from "./FormsVistaAdmin/FormTiempoExtra";
 import FormEstadoPista from "./FormsVistaAdmin/FormEstadoPista";

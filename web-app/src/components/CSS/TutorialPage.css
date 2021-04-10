@@ -1,0 +1,76 @@
+p {
+  font-size: 1.2em;
+}
+
+.miContainer {
+  position: absolute;
+  background-color: #f1f1f1;
+ 
+}
+
+.box1 {
+  position: sticky;
+  top: 0;
+  width: 20%;
+  float: left;
+  background-color: #f1f1f1;
+  padding-top: 10px;
+}
+
+.box1 a {
+  font-size: 1.2em;
+  display: block;
+  color: #000;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.box1 ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  background-color: #f1f1f1;
+}
+
+.box1 li a.active {
+  background-color: #4caf50;
+  color: white;
+}
+
+.box1 li a:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
+
+.box2 {
+  width: 80%;
+  float: right;
+
+  border-left: 1px;
+  border-left-color: black;
+  border-left-style: solid;
+
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 60px;
+  padding-top: 10px;
+
+  background-color: white;
+}
+
+.box2 img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
+  height: 75%;
+  border: 1px solid #000;
+  margin-bottom: 2em;
+}
+
+.box2 textarea {
+  width: 100%;
+  resize: none;
+  background-color: rgb(255, 240, 234);
+}

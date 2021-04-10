@@ -22,6 +22,8 @@ function PistaFila({ pista }) {
     case Estados.Funcionando:
       estado = "Operativa";
       break;
+      default:
+        
   }
 
   const buttonOnClick = (event) => {

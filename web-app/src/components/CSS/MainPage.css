@@ -1,0 +1,73 @@
+#FirstHeader {
+  position: relative;
+  height: 92vh;
+  width: 100%;
+  background: url("../../assets/PistaFondo.jpg"); /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+      to right,
+      rgba(3, 100, 190, 0.3),
+      rgba(216, 219, 3, 0.3)
+    ),
+    url("../../assets/PistaFondo.jpg");
+  background: linear-gradient(
+      to right,
+      rgba(3, 100, 190, 0.3),
+      rgba(216, 219, 3, 0.3)
+    ),
+    url("../../assets/PistaFondo.jpg");
+  background-attachment: scroll;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.wave {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  height: 9vh;
+  overflow: hidden;
+}
+
+.svgWave {
+  height: 100%;
+  width: 100%;
+}
+
+.wavePath {
+  stroke: none;
+  fill: #fff;
+}
+
+.textFirstHeader {
+  text-align: center;
+  padding: 15px;
+  position: absolute;
+  width: auto;
+  height: auto;
+  border-radius: 10px;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.6);
+  box-shadow: 0px 0px 18px 10px rgba(255, 255, 255, 0.383);
+}
+
+.linkButton{
+  margin-bottom: 10px;
+  font-size: 2em;
+}
+
+.textFirstHeader h1 {
+  color: #fff;
+  font-size: 5em;
+  font-family: "Libre Baskerville", serif;
+}
+
+.textFirstHeader p {
+  color: #fff;
+  padding-right: 4em;
+  padding-left: 4em;
+  font-size: 2em;
+}
+

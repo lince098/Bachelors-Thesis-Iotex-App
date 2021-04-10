@@ -2,7 +2,7 @@ import { makeObservable, observable, runInAction, action } from "mobx";
 import remotedev from "mobx-remotedev";
 import { utils } from "../utils/index";
 import { AntennaUtils } from "../utils/antanna";
-import { fromRau, toRau } from "iotex-antenna/lib/account/utils";
+import { fromRau } from "iotex-antenna/lib/account/utils";
 import { hasRol, Roles } from "../utils/PistaUtils";
 
 @remotedev({ name: "wallet" })
@@ -134,7 +134,7 @@ export class WalletStore {
         this.loadAccount();
       }, 2000);
     }
-    
+
     runInAction(() => {
       this.account.gestor = data2;
     });

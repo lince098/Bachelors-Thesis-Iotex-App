@@ -6,7 +6,8 @@ import { fromRau } from "iotex-antenna/lib/account/utils";
 import { reservar } from "../utils/PistaUtils";
 
 export default function Reserva() {
-  const id = useParams().id;
+  // eslint-disable-next-line
+  const [id ,setId]= useState(useParams().id);
   const [pista, setPista] = useState(undefined);
   const [precioXMinuto, setPrecioXMinuto] = useState(0);
   const [minutos, setMinutos] = useState(0);
@@ -16,11 +17,10 @@ export default function Reserva() {
     getPistaObject(parseInt(id, "10")).then((response) => {
       setPista(response);
     });
-
     getPrecio().then((response) => {
       setPrecioXMinuto(response);
     });
-  }, []);
+  },[id]);
 
   function reservaOnClick(event) {
     event.preventDefault();
@@ -56,7 +56,7 @@ export default function Reserva() {
   }
 
   return (
-    <div>
+    <div style={{ marginTop: "20px" }}>
       <Form className="mx-5">
         <Form.Group as={Row} controlId="formPrecioBlank">
           <Form.Label column sm="2">

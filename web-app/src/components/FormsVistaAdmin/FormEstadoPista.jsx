@@ -1,7 +1,6 @@
 import { Button, Form, Row, Col } from "react-bootstrap";
 import { useState } from "react";
 import { setPistaEstado } from "../../utils/PistaUtils";
-import { set } from "mobx";
 
 const FormEstadoPista = () => {
   const [mensaje, setMensaje] = useState("");
@@ -11,7 +10,7 @@ const FormEstadoPista = () => {
   function idOnChange(event) {
     console.log(event.target.value);
     const idNumber = parseInt(event.target.value);
-    if (idNumber !== NaN && idNumber >= 0) {
+    if (!isNaN(idNumber) && idNumber >= 0) {
       setId(idNumber);
     }
   }
@@ -25,10 +24,10 @@ const FormEstadoPista = () => {
   }
 
   function enviar() {
-    console.log("Enviar", id,estado);
+    console.log("Enviar", id, estado);
     if (id !== null && estado !== null) {
       console.log("Pasa el if");
-      setPistaEstado(id,estado)
+      setPistaEstado(id, estado)
         .then((response) => {
           console.log("Then Log response: ", response);
           const link = "https://testnet.iotexscan.io/action/" + response;
@@ -68,11 +67,7 @@ const FormEstadoPista = () => {
           Estado
         </Form.Label>
         <Col sm={10}>
-          <Form.Control
-            as="select"
-            onChange={estadoOnChange}
-            value="1"
-          >
+          <Form.Control as="select" onChange={estadoOnChange} value="1">
             <option value="0">Apagado</option>
             <option value="1">Funcionando</option>
             <option value="2">Encendido</option>

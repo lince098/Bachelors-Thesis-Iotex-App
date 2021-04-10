@@ -1,7 +1,7 @@
 import { publicConfig } from "../configs/public";
 import { AntennaUtils } from "./antanna";
 import { Contract } from "iotex-antenna/lib/contract/contract";
-import { fromRau, toRau } from "iotex-antenna/lib/account/utils";
+import { toRau } from "iotex-antenna/lib/account/utils";
 
 interface PistaObjeto {
   id: number;
@@ -34,7 +34,6 @@ function getContrato() {
 }
 
 export async function reservar(pistaObj: PistaObjeto, minutos: number) {
-  const antenna = AntennaUtils.getAntenna();
   const contrato = getContrato();
   const cuenta = await AntennaUtils.getIoPayAddress();
   const precio = Number(await getPrecio());
@@ -51,7 +50,6 @@ export async function reservar(pistaObj: PistaObjeto, minutos: number) {
 }
 
 export async function setTiempoExtra(segundos: number) {
-  const antenna = AntennaUtils.getAntenna();
   const contrato = getContrato();
   const cuenta = await AntennaUtils.getIoPayAddress();
 
@@ -63,12 +61,12 @@ export async function setTiempoExtra(segundos: number) {
 
   return hash;
 }
-//TODO
-export async function crearPista(segundos: number) {
-  const antenna = AntennaUtils.getAntenna();
+
+export async function crearPista(nombre: string) {
   const contrato = getContrato();
   const cuenta = await AntennaUtils.getIoPayAddress();
-  const hash = await contrato.methods.setTiempoExtra(segundos, {
+
+  const hash = await contrato.methods.crearPista(nombre, {
     account: cuenta,
     amount: 0,
     ...AntennaUtils.defaultContractOptions,
@@ -78,7 +76,6 @@ export async function crearPista(segundos: number) {
 }
 
 export async function darRolGestor(cuentaNueva: string) {
-  const antenna = AntennaUtils.getAntenna();
   const contrato = getContrato();
   const cuenta = await AntennaUtils.getIoPayAddress();
 
@@ -95,7 +92,6 @@ export async function darRolGestor(cuentaNueva: string) {
 }
 
 export async function setPrecioXMinutos(cantidad: string, unidad: string) {
-  const antenna = AntennaUtils.getAntenna();
   const contrato = getContrato();
   const cuenta = await AntennaUtils.getIoPayAddress();
 
@@ -111,7 +107,6 @@ export async function setPrecioXMinutos(cantidad: string, unidad: string) {
 }
 
 export async function setPistaEstado(pistaid: number, estado: number) {
-  const antenna = AntennaUtils.getAntenna();
   const contrato = getContrato();
   const cuenta = await AntennaUtils.getIoPayAddress();
   const pista = await getPistaObject(pistaid);
