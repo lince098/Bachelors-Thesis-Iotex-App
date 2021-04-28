@@ -1,10 +1,19 @@
 import { Button, Form, Row, Col } from "react-bootstrap";
-import { setTiempoExtra } from "../../utils/PistaUtils";
-import { useState } from "react";
+import { setTiempoExtra, getTiempoExtra } from "../../utils/PistaUtils";
+import { useState, useEffect } from "react";
 
 const FormTiempoExtra = () => {
   const [tiempo, setTiempo] = useState(0);
   const [mensaje, setMensaje] = useState("");
+  const [tiempoExtraActual, setTiempoExtraActual] = useState(
+    "Comprobando tiempo extra actual, espere."
+  );
+
+  useEffect(() => {
+    getTiempoExtra().then((response) => {
+      setTiempoExtraActual(response + " minutos.");
+    });
+  }, []);
 
   function tiempoOnChange(event) {
     const parsedTiempo = parseInt(event.target.value);
@@ -19,7 +28,6 @@ const FormTiempoExtra = () => {
     event.preventDefault();
     setTiempoExtra(tiempo)
       .then((response) => {
-        console.log("Then Log response: ", response);
         const link = "https://testnet.iotexscan.io/action/" + response;
         setMensaje(
           <p className="text-success">
@@ -29,18 +37,26 @@ const FormTiempoExtra = () => {
         );
       })
       .catch((response) => {
-        console.log("Catch response: ", response);
         setMensaje(
           <p className="text-danger">
-            La transacción no ha podido realizarse debido al error interno: {""}
+            La transacción no ha podido realizarse debido a un error con el
+            envío de la transaccion
           </p>
         );
-        console.log(response);
       });
   }
 
   return (
     <Form>
+      <Form.Group as={Row} controlId="formHorizontalTiempoExtraActual">
+        <Form.Label column sm={2}>
+          Tiempo extra actual
+        </Form.Label>
+        <Col sm={10}>
+          <Form.Control type="text" readOnly value={tiempoExtraActual} />
+        </Col>
+      </Form.Group>
+
       <Form.Group as={Row} controlId="formHorizontalTiempo">
         <Form.Label column sm={2}>
           Tiempo

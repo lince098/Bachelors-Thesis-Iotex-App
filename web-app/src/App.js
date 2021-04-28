@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Reserva from "./components/Reserva";
 import VistaAdmin from "./components/VistaAdmin";
 import PaginaPrincipal from "./components/PaginaPrincipal";
-import Tutorial from "./components/Tutorial"
+import Tutorial from "./components/Tutorial";
 
 function App() {
   const { wallet } = useStore();
@@ -25,13 +25,15 @@ function App() {
 
   return (
     <Router>
-      <div className="App" style={{position: "relative"}}>
+      <div className="App" style={{ position: "relative" }}>
         <MyNavbar />
         <Switch>
           <Route exact path="/">
             <PaginaPrincipal />
           </Route>
-          <Route path="/tutorial"><Tutorial></Tutorial></Route>
+          <Route path="/tutorial">
+            <Tutorial />
+          </Route>
           <Route path="/pistas">
             <VistaPistas />
           </Route>
@@ -39,7 +41,7 @@ function App() {
             <Reserva />
           </Route>
           <Route path="/admin">
-            <VistaAdmin></VistaAdmin>
+            <VistaAdmin />
           </Route>
         </Switch>
       </div>

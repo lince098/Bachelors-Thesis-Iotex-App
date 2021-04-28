@@ -15,7 +15,6 @@ export default function Tutorial() {
     paso4: "",
   });
 
-  
   const linkOnClick = (event) => {
     const paso = event.target.hash;
     switch (paso) {
@@ -111,12 +110,14 @@ export default function Tutorial() {
 
           <h2 id="paso0">Instalación de la aplicación cartera</h2>
           <p>
-            Para utilizar ésta aplicación se requiere de una aplicación que
-            mantiene la clave privada segura y al mismo tiempo permite firmar
-            transacciones. Dicha app se encuentra en el siguiente link:
+            Para utilizar ésta aplicación se requiere de una aplicación que se
+            comunicará con la blockchain permitiendo hacer uso de nuestras
+            criptomonedas y firmar transacciones. Dicha app se encuentra en el
+            siguiente link:{" "}
             <a href="https://iopay.iotex.io/desktop">
               https://iopay.iotex.io/desktop
             </a>
+            .
           </p>
 
           <h2 id="paso1">Creando nuestra cartera</h2>
@@ -148,9 +149,10 @@ export default function Tutorial() {
 
           <h2 id="paso4">Empiece a usar la app</h2>
           <p>
-            Una vez llegados a este punto ya será posible utilizar las
-            funcionalidades aplicación web. Aunque a través de la interfaz
-            también podrá acceder e interactuar con el contrato inteligente
+            Una vez llegados a este punto ya es posible utilizar las
+            funcionalidades aplicación web una vez se acceda a ella con la
+            cartera desbloqueada. Aunque a través de la interfaz también de
+            IoPay podrá acceder e interactuar con el contrato inteligente
             directamente si lo desea, para ello necesita utilizar la dirección
             del contrato: "{publicConfig.CONTRATO_DIRECCION}".
           </p>
@@ -160,11 +162,7 @@ export default function Tutorial() {
             value={publicConfig.CONTRATO_ABI}
             readOnly
           ></textarea>
-          <img
-            style={{ marginTop: "2em" }}
-            src={Paso4}
-            alt="Paso4.jpg"
-          ></img>
+          <img style={{ marginTop: "2em" }} src={Paso4} alt="Paso4.jpg"></img>
         </div>
       </div>
     </React.Fragment>

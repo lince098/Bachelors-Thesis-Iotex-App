@@ -7,7 +7,7 @@ import { reservar } from "../utils/PistaUtils";
 
 export default function Reserva() {
   // eslint-disable-next-line
-  const [id ,setId]= useState(useParams().id);
+  const [id, setId] = useState(useParams().id);
   const [pista, setPista] = useState(undefined);
   const [precioXMinuto, setPrecioXMinuto] = useState(0);
   const [minutos, setMinutos] = useState(0);
@@ -20,13 +20,12 @@ export default function Reserva() {
     getPrecio().then((response) => {
       setPrecioXMinuto(response);
     });
-  },[id]);
+  }, [id]);
 
   function reservaOnClick(event) {
     event.preventDefault();
     reservar(pista, Number(minutos))
       .then((response) => {
-        console.log("Then Log response: ", response);
         const link = "https://testnet.iotexscan.io/action/" + response;
         setLogMessage(
           <p className="text-success">
@@ -36,13 +35,12 @@ export default function Reserva() {
         );
       })
       .catch((response) => {
-        console.log("Catch response: ", response);
         setLogMessage(
           <p className="text-danger">
-            La transacción no ha podido realizarse debido al error interno: {""}
+            La transacción no ha podido realizarse debido a un error con el
+            envío de la transaccion
           </p>
         );
-        console.log(response);
       });
   }
   function minutosOnChange(event) {
@@ -52,7 +50,6 @@ export default function Reserva() {
   let precioRender = 0;
   if (precioXMinuto !== 0) {
     precioRender = fromRau(precioXMinuto, "IOTX");
-    console.log("PrecioRender: ", precioRender, typeof precioRender);
   }
 
   return (

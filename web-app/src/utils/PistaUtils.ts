@@ -106,13 +106,24 @@ export async function setPrecioXMinutos(cantidad: string, unidad: string) {
   return hash;
 }
 
+export async function retirarGanancias() {
+  const contrato = getContrato();
+  const cuenta = await AntennaUtils.getIoPayAddress();
+
+  const response = await contrato.methods.retirarGanancias({
+    account: cuenta,
+    amount: 0,
+    ...AntennaUtils.defaultContractOptions,
+  });
+
+  return response;
+}
+
 export async function setPistaEstado(pistaid: number, estado: number) {
   const contrato = getContrato();
   const cuenta = await AntennaUtils.getIoPayAddress();
   const pista = await getPistaObject(pistaid);
   let hash;
-  console.log(console.log(pista));
-  console.log(estado);
 
   switch (estado) {
     case Estados.Apagado:
@@ -155,23 +166,13 @@ export async function logTransaction(hash: string) {
 
 export async function hasRol(rol: string, cuenta: string) {
   const contrato = getContrato();
+  const cuentaActual = await AntennaUtils.getIoPayAddress();
 
   const response = await contrato.methods.hasRole(rol, cuenta, {
-    account: cuenta,
+    account: cuentaActual,
   });
 
   return response;
-}
-
-export async function getRoleGestor() {
-  const contrato = getContrato();
-
-  const cuenta = await AntennaUtils.getIoPayAddress();
-  const response = await contrato.methods.GESTOR_PISTAS_ROLE({
-    account: cuenta,
-  });
-
-  console.log(response, typeof response);
 }
 
 export async function isLoggedAccountGestor() {
@@ -181,7 +182,7 @@ export async function isLoggedAccountGestor() {
   return response;
 }
 
-export async function getAll() {
+export async function getAllPistas() {
   const numPist = await numeroPistas();
   let array = [];
   for (let index = 0; index < numPist; index++) {
@@ -189,6 +190,52 @@ export async function getAll() {
     array.push(pista);
   }
   return array;
+}
+
+export async function quitarRolGestor(cuenta: string) {
+  const contrato = getContrato();
+  const cuentaActual = await AntennaUtils.getIoPayAddress();
+
+  const response = await contrato.methods.revokeRole(
+    Roles.GESTOR_ROLE,
+    cuenta,
+    {
+      account: cuentaActual,
+      amount: 0,
+      ...AntennaUtils.defaultContractOptions,
+    }
+  );
+
+  return response;
+}
+
+export async function getNumGestores() {
+  const contrato = getContrato();
+  const cuentaActual = await AntennaUtils.getIoPayAddress();
+
+  const response = await contrato.methods.getRoleMemberCount(
+    Roles.GESTOR_ROLE,
+    cuentaActual
+  );
+
+  return response;
+}
+
+export async function getAllGestores() {
+  const contrato = getContrato();
+  const cuentaActual = await AntennaUtils.getIoPayAddress();
+  const numGestores = await getNumGestores();
+  let gestor;
+  const arrayAccounts = [];
+
+  for (let index = 0; index < numGestores; index++) {
+    gestor = await contrato.methods.getRoleMember(Roles.GESTOR_ROLE, index, {
+      account: cuentaActual,
+    });
+    arrayAccounts.push(gestor);
+  }
+
+  return arrayAccounts;
 }
 
 export async function getPrecio() {
@@ -199,6 +246,30 @@ export async function getPrecio() {
     contractAddress: publicConfig.CONTRATO_DIRECCION,
     abi: publicConfig.CONTRATO_ABI,
     method: "PrecioXMinuto",
+  });
+  return precio;
+}
+
+export async function getTiempoExtra() {
+  const antenna = AntennaUtils.getAntenna();
+  // @ts-ignore
+  const precio = await antenna.iotx.readContractByMethod({
+    from: await AntennaUtils.getIoPayAddress(),
+    contractAddress: publicConfig.CONTRATO_DIRECCION,
+    abi: publicConfig.CONTRATO_ABI,
+    method: "TiempoExtra",
+  });
+  return precio;
+}
+
+export async function getGanancias() {
+  const antenna = AntennaUtils.getAntenna();
+  // @ts-ignore
+  const precio = await antenna.iotx.readContractByMethod({
+    from: await AntennaUtils.getIoPayAddress(),
+    contractAddress: publicConfig.CONTRATO_DIRECCION,
+    abi: publicConfig.CONTRATO_ABI,
+    method: "getGanancias",
   });
   return precio;
 }

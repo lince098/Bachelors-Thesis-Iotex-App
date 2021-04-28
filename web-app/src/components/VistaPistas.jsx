@@ -1,11 +1,43 @@
 import { Table, Button, Form } from "react-bootstrap";
-import { getAll, Estados, isReservable } from "../utils/PistaUtils";
-import { useEffect, useState } from "react";
+import { getAllPistas, Estados, isReservable } from "../utils/PistaUtils";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 const alignRightStyle = {
   justifyContent: "center",
 };
+
+function FechaFormat(props) {
+  const date = props.date;
+  const day =
+    date.getDate().toString().length === 1
+      ? "0" + date.getDate().toString()
+      : date.getDate().toString();
+  const monthNumber = date.getMonth() + 1;
+  const month =
+    monthNumber.toString().length === 1
+      ? "0" + monthNumber.toString()
+      : monthNumber.toString();
+  const year = date.getFullYear();
+  const hours =
+    date.getHours().toString().length === 1
+      ? "0" + date.getHours().toString()
+      : date.getHours().toString();
+  const minutes =
+    date.getMinutes().toString().length === 1
+      ? "0" + date.getMinutes().toString()
+      : date.getMinutes().toString();
+  const seconds =
+    date.getSeconds().toString().length === 1
+      ? "0" + date.getSeconds().toString()
+      : date.getSeconds().toString();
+
+  return (
+    <React.Fragment>
+      {day}-{month}-{year} {hours}:{minutes}:{seconds}
+    </React.Fragment>
+  );
+}
 
 function PistaFila({ pista }) {
   const history = useHistory();
@@ -22,8 +54,7 @@ function PistaFila({ pista }) {
     case Estados.Funcionando:
       estado = "Operativa";
       break;
-      default:
-        
+    default:
   }
 
   const buttonOnClick = (event) => {
@@ -55,8 +86,7 @@ function PistaFila({ pista }) {
       <td>{pista.nombre}</td>
       <td>{estado}</td>
       <td>
-        {date.getDate()}-{date.getMonth() + 1}-{date.getFullYear()}{" "}
-        {date.getHours()}:{date.getMinutes()}:{date.getSeconds()}
+        <FechaFormat date={date} />
       </td>
       <td>{button}</td>
     </tr>
@@ -69,7 +99,7 @@ export default function TablaPistas() {
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
-    getAll().then((data) => {
+    getAllPistas().then((data) => {
       setPistas(data);
     });
   }, []);

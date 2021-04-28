@@ -8,27 +8,36 @@ import {
 } from "react-bootstrap";
 import { useState } from "react";
 import { InfoSquare } from "react-bootstrap-icons";
-import { setPrecioXMinutos } from "../../utils/PistaUtils";
+import { setPrecioXMinutos, getPrecio } from "../../utils/PistaUtils";
+import { useEffect } from "react";
+import { fromRau } from "iotex-antenna/lib/account/utils";
 
 const FormPrecio = () => {
   const [selectValue, setSelectValue] = useState("IOTX");
   const [nuevoPrecio, setNuevoPrecio] = useState(0);
   const [mensaje, setMensaje] = useState("");
+  const [precioActual, setPrecioActual] = useState(
+    "Comprobando el precio, espere."
+  );
+
+  useEffect(() => {
+    getPrecio().then((response) => {
+      const precioEnIotex = fromRau(response, "IOTX") + " IOTX";
+      setPrecioActual(precioEnIotex);
+    });
+  }, []);
 
   const selectOnChange = (event) => {
     const unidad = event.target.value;
     setSelectValue(unidad);
-    console.log(event);
   };
 
   const nuevoPrecioOnChange = (event) => {
     const precioString = event.target.value;
-    console.log(precioString);
     if (precioString === "") {
       setNuevoPrecio(0);
     } else {
       const parsedPrecio = parseInt(precioString);
-      console.log(parsedPrecio);
       if (isNaN(parsedPrecio)) {
         setNuevoPrecio(0);
       } else {
@@ -51,7 +60,6 @@ const FormPrecio = () => {
     event.preventDefault();
     setPrecioXMinutos(nuevoPrecio, selectValue)
       .then((response) => {
-        console.log("Then Log response: ", response);
         const link = "https://testnet.iotexscan.io/action/" + response;
         setMensaje(
           <p className="text-success">
@@ -61,18 +69,26 @@ const FormPrecio = () => {
         );
       })
       .catch((response) => {
-        console.log("Catch response: ", response);
         setMensaje(
           <p className="text-danger">
-            La transacción no ha podido realizarse debido al error interno: {""}
+            La transacción no ha podido realizarse debido a un error con el
+            envío de la transaccion
           </p>
         );
-        console.log(response);
       });
   };
 
   return (
     <Form>
+      <Form.Group as={Row} controlId="formHorizontalPrecioActual">
+        <Form.Label column sm={2}>
+          Precio actual
+        </Form.Label>
+        <Col sm={10}>
+          <Form.Control type="text" readOnly value={precioActual} />
+        </Col>
+      </Form.Group>
+
       <Form.Group as={Row} controlId="formHorizontalPrecio">
         <Form.Label column sm={2}>
           Precio

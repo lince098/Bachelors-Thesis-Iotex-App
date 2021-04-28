@@ -59,17 +59,7 @@ export class WalletStore {
       AntennaUtils.getIoPayAddress()
     );
 
-    console.log(
-      "*********\nLogs de getiIoPAyAdrres ",
-      err,
-      "\nY address :",
-      address,
-      "\n********"
-    );
-
     if (err || !address || address === "") {
-      console.log("Settimeout");
-
       return setTimeout(() => {
         this.initWS();
       }, 2000);
@@ -90,13 +80,6 @@ export class WalletStore {
       })
     );
 
-    console.log(
-      "*********\nLogs de loadAcccount: ",
-      err,
-      "\nY data :",
-      data?.accountMeta,
-      "\n********"
-    );
     if (err || !data) {
       return setTimeout(() => {
         this.loadAccount();
@@ -111,11 +94,12 @@ export class WalletStore {
         });
       }
     }
+
     const [err1, data1] = await utils.helper.promise.runAsync(
       hasRol(Roles.ADMIN_ROLE, this.account.address)
     );
 
-    if (err1 || !data1) {
+    if (err1 || null == data1) {
       return setTimeout(() => {
         this.loadAccount();
       }, 2000);
@@ -129,7 +113,7 @@ export class WalletStore {
       hasRol(Roles.GESTOR_ROLE, this.account.address)
     );
 
-    if (err2 || !data2) {
+    if (err2 || null == data2) {
       return setTimeout(() => {
         this.loadAccount();
       }, 2000);

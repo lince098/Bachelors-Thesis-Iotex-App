@@ -1,19 +1,26 @@
 import { Button, Form, Row, Col } from "react-bootstrap";
-import { darRolGestor } from "../../utils/PistaUtils";
 import { useState } from "react";
+import { getGanancias, retirarGanancias } from "../../utils/PistaUtils";
+import { useEffect } from "react";
+import { fromRau } from "iotex-antenna/lib/account/utils";
 
-const FormDarRolGestor = () => {
-  const [cuenta, setCuenta] = useState(0);
+const FormRetirarGanancia = () => {
   const [mensaje, setMensaje] = useState("");
+  const [ganancias, setGanancias] = useState(
+    "Comprobando el dinero recaudado, espere."
+  );
 
-  function cuentaOnChange(event) {
-    setCuenta(event.target.value);
-  }
+  useEffect(() => {
+    getGanancias().then((response) => {
+      const gananciasString = fromRau(response, "IOTX") + " IOTX";
+      setGanancias(gananciasString);
+    });
+  }, []);
 
-  function enviar(event) {
+  const enviar = (event) => {
     event.preventDefault();
 
-    darRolGestor(cuenta)
+    retirarGanancias()
       .then((response) => {
         const link = "https://testnet.iotexscan.io/action/" + response;
         setMensaje(
@@ -31,20 +38,16 @@ const FormDarRolGestor = () => {
           </p>
         );
       });
-  }
+  };
 
   return (
     <Form>
-      <Form.Group as={Row} controlId="formDarGestorCuenta">
+      <Form.Group as={Row} controlId="formHorizontalGanancias">
         <Form.Label column sm={2}>
-          Cuenta:
+          Criptomonedas acumuladas
         </Form.Label>
         <Col sm={10}>
-          <Form.Control
-            onChange={cuentaOnChange}
-            type="text"
-            placeholder="Cuenta"
-          />
+          <Form.Control type="text" readOnly value={ganancias} />
         </Col>
       </Form.Group>
 
@@ -58,4 +61,4 @@ const FormDarRolGestor = () => {
   );
 };
 
-export default FormDarRolGestor;
+export default FormRetirarGanancia;
