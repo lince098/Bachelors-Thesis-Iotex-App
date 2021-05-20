@@ -40,10 +40,10 @@ export const isEncendida = (pistaArray) => {
 
     case Estados.Funcionando:
       const now = new Date();
-      const timestamp = Math.trunc(now.getTime() / 1000);
-      console.log("Momento actual:\n" + timestamp);
-      console.log("Momento plazo:" + pistaArray[1]);
-      console.log("actual<plazo: "+ timestamp<pistaArray)
-      return timestamp < pistaArray[1];
+      const timestamp = now.getTime();
+      console.log("Momento actual:\n" + new Date(timestamp));
+      console.log("Momento plazo:\n" + new Date(pistaArray[1] * 1000));
+      console.log("actual<plazo: " + timestamp < pistaArray);
+      return Math.trunc(timestamp / 1000) < pistaArray[1];
   }
 };
