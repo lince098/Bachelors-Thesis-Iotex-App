@@ -20,7 +20,7 @@ const VistaAdmin = () => {
         <Card>
           <Card.Header>
             <Accordion.Toggle as={Button} variant="link" eventKey="2">
-              Cambiar estado de una pista.
+              Cambiar estado de una pista
             </Accordion.Toggle>
           </Card.Header>
           <Accordion.Collapse eventKey="2">
@@ -50,7 +50,7 @@ const VistaAdmin = () => {
         <Card>
           <Card.Header>
             <Accordion.Toggle as={Button} variant="link" eventKey="0">
-              Modificar precio por minuto.
+              Modificar precio por minuto
             </Accordion.Toggle>
           </Card.Header>
           <Accordion.Collapse eventKey="0">
@@ -65,7 +65,7 @@ const VistaAdmin = () => {
         <Card>
           <Card.Header>
             <Accordion.Toggle as={Button} variant="link" eventKey="1">
-              Modificar tiempo extra.
+              Modificar tiempo extra
             </Accordion.Toggle>
           </Card.Header>
           <Accordion.Collapse eventKey="1">
@@ -80,7 +80,7 @@ const VistaAdmin = () => {
         <Card>
           <Card.Header>
             <Accordion.Toggle as={Button} variant="link" eventKey="3">
-              Retirar ganancias.
+              Retirar ganancias
             </Accordion.Toggle>
           </Card.Header>
           <Accordion.Collapse eventKey="3">
@@ -95,7 +95,7 @@ const VistaAdmin = () => {
         <Card>
           <Card.Header>
             <Accordion.Toggle as={Button} variant="link" eventKey="4">
-              Dar rol gestor.
+              Dar rol gestor
             </Accordion.Toggle>
           </Card.Header>
           <Accordion.Collapse eventKey="4">
@@ -110,7 +110,7 @@ const VistaAdmin = () => {
         <Card>
           <Card.Header>
             <Accordion.Toggle as={Button} variant="link" eventKey="5">
-              Quitar rol gestor.
+              Quitar rol gestor
             </Accordion.Toggle>
           </Card.Header>
           <Accordion.Collapse eventKey="5">

@@ -1,24 +1,14 @@
 var Gpio = require("onoff").Gpio;
 
 const GPIO_Numbers = [
-  4,
-  17,
-  27,
-  22,
-  5,
-  6,
-  13,
-  19,
-  26,
-  18,
-  23,
-  24,
-  25,
-  12,
-  16,
-  20,
-  21,
+  4, 17, 27, 22, 5, 6, 13, 19, 26, 18, 23, 24, 25, 12, 16, 20, 21,
 ];
+
+export const clearGpio = (arrayDePistaLed) => {
+  arrayDePistaLed.forEach((pista) => {
+    setState(false, pista.led);
+  });
+};
 
 const transformarArray = (cadenaTexto) => {
   const stringArray = String(cadenaTexto).split(",");
@@ -31,8 +21,8 @@ const transformarArray = (cadenaTexto) => {
 };
 
 export const initGpio = (cadenaTexto) => {
-  console.log(Gpio.accessible)
-  
+  console.log(Gpio.accessible);
+
   const IdPistas = transformarArray(cadenaTexto);
   if (IdPistas.length > GPIO_Numbers.length) {
     throw "La cantidad de pistas superan los GPio disponibles.";
@@ -50,6 +40,5 @@ export const initGpio = (cadenaTexto) => {
 };
 
 export const setState = (nuevoEstado, led) => {
-  console.log(nuevoEstado);
   led.writeSync(Number(nuevoEstado));
 };

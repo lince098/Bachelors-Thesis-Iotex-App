@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.6.0 <0.7.0;
-import "./PistasDePadelGestion.sol";
+import "./PistasGestion.sol";
 
-contract PistasDePadelCliente is PistasDePadelGestion {
+contract PistasCliente is PistasGestion {
     uint256 public PrecioXMinuto = 1 ether;
 
     // Tiempo extra que se le da al cliente (para compensar el tiempo de confirmación de la transacción)

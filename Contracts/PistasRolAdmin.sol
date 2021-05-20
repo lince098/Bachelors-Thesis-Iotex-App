@@ -3,7 +3,7 @@ pragma solidity >=0.6.0 <0.7.0;
 
 import "../node_modules/openzeppelin-solidity/contracts/access/AccessControl.sol";
 
-contract PistasDePadelRolAdmin is AccessControl {
+contract PistasRolAdmin is AccessControl {
 
     bytes32 public constant GESTOR_PISTAS_ROLE = keccak256("Gestor");
 

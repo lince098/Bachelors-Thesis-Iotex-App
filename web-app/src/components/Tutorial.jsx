@@ -151,8 +151,8 @@ export default function Tutorial() {
           <p>
             Una vez llegados a este punto ya es posible utilizar las
             funcionalidades aplicación web una vez se acceda a ella con la
-            cartera desbloqueada. Aunque a través de la interfaz también de
-            IoPay podrá acceder e interactuar con el contrato inteligente
+            cartera desbloqueada. Aunque a través de la interfaz de IoPay
+            también podrá acceder e interactuar con el contrato inteligente
             directamente si lo desea, para ello necesita utilizar la dirección
             del contrato: "{publicConfig.CONTRATO_DIRECCION}".
           </p>

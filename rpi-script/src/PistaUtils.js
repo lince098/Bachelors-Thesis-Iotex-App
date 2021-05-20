@@ -41,9 +41,9 @@ export const isEncendida = (pistaArray) => {
     case Estados.Funcionando:
       const now = new Date();
       const timestamp = Math.trunc(now.getTime() / 1000);
-      console.log("Momento Actual Truncado:\n" + timestamp);
-      console.log("Momento Actual :\n" + now.getTime());
+      console.log("Momento actual:\n" + timestamp);
       console.log("Momento plazo:" + pistaArray[1]);
+      console.log("actual<plazo: "+ timestamp<pistaArray)
       return timestamp < pistaArray[1];
   }
 };

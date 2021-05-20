@@ -1,5 +1,5 @@
 import { Navbar, Nav } from "react-bootstrap";
-import IconoPadel from "../assets/IconoPadel.png";
+import IconoPadel from "../assets/miIcono.png";
 import { NavLink } from "react-router-dom";
 import { useStore } from "../store/store";
 import { observer } from "mobx-react";
@@ -38,7 +38,7 @@ function MyNavbar() {
           height="30"
           className="d-inline-block align-top"
         />{" "}
-        Nombre de la web
+        Elysium Photonics
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">

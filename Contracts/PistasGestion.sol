@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.6.0 <0.7.0;
-import "./PistasDePadelRolAdmin.sol";
+import "./PistasRolAdmin.sol";
 
-contract PistasDePadelGestion is PistasDePadelRolAdmin {
+contract PistasGestion is PistasRolAdmin {
     enum Estado {Apagado, Funcionamiento, Encendido}
 
     /**

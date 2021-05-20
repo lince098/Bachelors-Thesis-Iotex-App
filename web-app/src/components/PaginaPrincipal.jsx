@@ -13,7 +13,7 @@ const PaginaPrincipal = () => {
     <div>
       <div id="FirstHeader">
         <div className="textFirstHeader">
-          <h1>Nombre de la web</h1>
+          <h1>Elysium Photonics</h1>
           <p>
             El sistema de iluminación de pistas soportado por la Blockchain
           </p>
