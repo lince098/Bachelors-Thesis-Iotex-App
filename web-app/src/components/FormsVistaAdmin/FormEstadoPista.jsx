@@ -60,7 +60,7 @@ const FormEstadoPista = () => {
           Estado
         </Form.Label>
         <Col sm={10}>
-          <Form.Control as="select" onChange={estadoOnChange} value="1">
+          <Form.Control as="select" onChange={estadoOnChange} value={estado}>
             <option value="0">Apagado</option>
             <option value="1">Funcionando</option>
             <option value="2">Encendido</option>
