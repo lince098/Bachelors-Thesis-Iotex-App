@@ -21,8 +21,6 @@ const transformarArray = (cadenaTexto) => {
 };
 
 export const initGpio = (cadenaTexto) => {
-  console.log(Gpio.accessible);
-
   const IdPistas = transformarArray(cadenaTexto);
   if (IdPistas.length > GPIO_Numbers.length) {
     throw "La cantidad de pistas superan los GPio disponibles.";

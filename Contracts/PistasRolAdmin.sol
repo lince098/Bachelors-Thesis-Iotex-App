@@ -12,6 +12,11 @@ contract PistasRolAdmin is AccessControl {
         _;
     }
 
+    modifier onlyAdmin {
+        require(hasRole(DEFAULT_ADMIN_ROLE, msg.sender));
+        _;
+    }
+
     constructor() public {
         _setupRole(DEFAULT_ADMIN_ROLE,msg.sender);
         _setupRole(GESTOR_PISTAS_ROLE,msg.sender);

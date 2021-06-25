@@ -1,4 +1,4 @@
-<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>340</x><y>0</y><w>210</w><h>150</h></coordinates><panel_attributes>&lt;&lt;Contract&gt;&gt;
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>30</x><y>20</y><w>210</w><h>150</h></coordinates><panel_attributes>&lt;&lt;Contract&gt;&gt;
 PistasRolAdmin
 --
 Variables globales
@@ -8,7 +8,7 @@ Funciones
 # constructor()
 --
 Modifiers
-+ onlyGestor</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>300</x><y>230</y><w>270</w><h>220</h></coordinates><panel_attributes>&lt;&lt;Contract&gt;&gt;
++ onlyGestor</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>190</x><y>210</y><w>270</w><h>220</h></coordinates><panel_attributes>&lt;&lt;Contract&gt;&gt;
 PistasGestion
 --
 Funciones
@@ -23,25 +23,25 @@ Funciones de gestor
 + resetearPlazos()
 --
 Modifiers
-+ estadoDePistaFuncionamiento(idPista: uint)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>80</x><y>450</y><w>100</w><h>90</h></coordinates><panel_attributes>&lt;&lt;Enum&gt;&gt;
++ estadoDePistaFuncionamiento(idPista: uint)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>30</x><y>310</y><w>100</w><h>90</h></coordinates><panel_attributes>&lt;&lt;Enum&gt;&gt;
 Estado
 --
 Apagado
 Funcionando
-Encendido</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>70</x><y>250</y><w>120</w><h>90</h></coordinates><panel_attributes>&lt;&lt;Struct&gt;&gt;
+Encendido</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>20</x><y>190</y><w>120</w><h>90</h></coordinates><panel_attributes>&lt;&lt;Struct&gt;&gt;
 Pista
 --
 -nombre: String
 -plazo: Timestamp
--estado: Estado</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>110</x><y>330</y><w>30</w><h>140</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;120;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>180</x><y>300</y><w>140</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
-m1=0..n</panel_attributes><additional_attributes>10;10;120;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>640</x><y>40</y><w>260</w><h>50</h></coordinates><panel_attributes>&lt;&lt;Contract&gt;&gt;
+-estado: Estado</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>60</x><y>270</y><w>30</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;40;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>130</x><y>240</y><w>80</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
+m1=0..n</panel_attributes><additional_attributes>10;10;60;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>350</x><y>40</y><w>260</w><h>60</h></coordinates><panel_attributes>&lt;&lt;Contract&gt;&gt;
 OpenZeppelinContracts::AccessControl
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>660</x><y>180</y><w>240</w><h>140</h></coordinates><panel_attributes>Un smart contract que implementa 
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>490</x><y>130</y><w>240</w><h>140</h></coordinates><panel_attributes>Un smart contract que implementa 
 funciones para asignar y controlar roles 
 en un sistema. Más información en la 
 documentación de los contratos de 
 OpenZeppelin.
-bg=black</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>540</x><y>60</y><w>120</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>100;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>430</x><y>140</y><w>30</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;90</additional_attributes></element><element><id>Relation</id><coordinates><x>770</x><y>90</y><w>30</w><h>110</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;10;10;90</additional_attributes></element><element><id>UMLClass</id><coordinates><x>540</x><y>480</y><w>540</w><h>240</h></coordinates><panel_attributes>&lt;&lt;Contract&gt;&gt;
+bg=black</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>230</x><y>60</y><w>140</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>120;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>230</x><y>120</y><w>130</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;110;10;110;90</additional_attributes></element><element><id>Relation</id><coordinates><x>570</x><y>90</y><w>30</w><h>60</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;10;10;40</additional_attributes></element><element><id>UMLClass</id><coordinates><x>100</x><y>470</y><w>450</w><h>240</h></coordinates><panel_attributes>&lt;&lt;Contract&gt;&gt;
 PistasCliente
 --
 Variables
@@ -59,4 +59,4 @@ Funciones de gestor
 + setPrecioXMinuto(precio: uint)
 + setTiempoExtra(segundos: uint)
 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>390</x><y>440</y><w>180</w><h>180</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;160;160;160</additional_attributes></element></diagram>
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>280</x><y>420</y><w>30</w><h>70</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;50</additional_attributes></element></diagram>

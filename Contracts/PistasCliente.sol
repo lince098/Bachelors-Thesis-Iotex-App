@@ -5,7 +5,6 @@ import "./PistasGestion.sol";
 contract PistasCliente is PistasGestion {
     uint256 public PrecioXMinuto = 1 ether;
 
-    // Tiempo extra que se le da al cliente (para compensar el tiempo de confirmación de la transacción)
     uint256 public TiempoExtra = 1 minutes;
 
     uint256 private ganancias = 0;
@@ -44,24 +43,18 @@ contract PistasCliente is PistasGestion {
         require(
             nuevoPlazo > now,
             "Error de acarreo de bits, el nuevo plazo no está calculandose correctamente."
-        ); //Solidity es un lenguaje a más bajo nivel de lo que parece y esta clase de comprobaciones se hacen necesarias.
+        );
     }
 
-    function retirarGanancias() public payable returns (bool) {
-        require(
-            hasRole(DEFAULT_ADMIN_ROLE, msg.sender),
-            "El usuario que llama a la función no posee los permisos necesarios"
-        );
-
+    function retirarGanancias() public payable onlyAdmin returns (bool) {
         if (!msg.sender.send(ganancias)) {
             return false;
         }
-
         ganancias = 0;
         return true;
     }
 
-    function getGanancias() public view onlyGestor returns (uint256) {
+    function getGanancias() public view onlyAdmin returns (uint256) {
         return ganancias;
     }
 
